@@ -1,0 +1,42 @@
+name: Bug report
+description: Report incorrect behavior without sharing secrets
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Never attach private keys, seed phrases, keypair files, webhook URLs, tokens, or unreviewed production reports.**
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened?
+      description: Include the expected and actual behavior.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Vigil version
+      description: Output of `vigil version`.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Linux distribution/kernel, architecture, validator client and version, RPC commitment.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Minimal command and sanitized public configuration.
+    validations:
+      required: true
+  - type: checkboxes
+    id: sanitized
+    options:
+      - label: I removed all secrets and private infrastructure details.
+        required: true

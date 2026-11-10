@@ -1,0 +1,7 @@
+# Add this job to an existing Prometheus scrape_configs section.
+scrape_configs:
+  - job_name: vigil
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    static_configs:
+      - targets: ["127.0.0.1:9109"]
