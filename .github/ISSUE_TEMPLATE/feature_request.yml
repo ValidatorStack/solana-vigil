@@ -1,0 +1,24 @@
+name: Feature request
+description: Propose a read-only validator operations improvement
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Operator problem
+      description: What incident or recurring task would this improve? Who experiences it?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and proposed behavior
+      description: Link primary protocol/client documentation and explain success/failure/unknown states.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundary
+    options:
+      - label: This does not require key access, signing, transactions, automatic failover, or host mutation.
+        required: true
