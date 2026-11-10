@@ -1,0 +1,39 @@
+[Unit]
+Description=Vigil read-only Solana validator watcher
+Documentation=https://github.com/ValidatorStack/solana-vigil
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vigil
+Group=vigil
+WorkingDirectory=/var/lib/vigil
+EnvironmentFile=-/etc/vigil/env
+ExecStart=/usr/local/bin/vigil watch --config /etc/vigil/vigil.json --log-format json
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=20s
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/vigil
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+[Install]
+WantedBy=multi-user.target

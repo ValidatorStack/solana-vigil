@@ -1,0 +1,49 @@
+groups:
+  - name: vigil-validator
+    rules:
+      - alert: VigilExporterDown
+        expr: up{job="vigil"} == 0
+        for: 3m
+        labels: {severity: critical}
+        annotations:
+          summary: Vigil exporter is not being scraped
+          description: Check the vigil-export service and local network path before trusting the absence of validator alerts.
+      - alert: VigilVATInsufficient
+        expr: solana_vat_next_epoch_sufficient == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: Vote account cannot cover the next epoch VAT
+          description: Above-rent vote account balance is below the configured VAT. Verify the current protocol fee and fund the vote account using your reviewed runbook.
+      - alert: VigilVATRunwayLow
+        expr: solana_vat_runway_epochs < 2 and solana_vat_next_epoch_sufficient == 1
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: Vote account VAT runway is below two epochs
+      - alert: VigilBLSMissing
+        expr: solana_bls_registered == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: Vote account BLS key is missing or malformed
+      - alert: VigilBLSUnknown
+        expr: vigil_observation_available{observation="bls"} == 0
+        for: 15m
+        labels: {severity: warning}
+        annotations:
+          summary: BLS registration cannot be observed
+          description: The RPC schema may be old or incomplete. Do not interpret this as proof that the key is absent.
+      - alert: VigilValidatorDelinquent
+        expr: solana_delinquent == 1
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: Validator is delinquent
+      - alert: VigilUnknownChecks
+        expr: count(vigil_check_status == 3) > 0
+        for: 15m
+        labels: {severity: warning}
+        annotations:
+          summary: Vigil has unknown validator observations
+          description: Monitoring coverage is degraded. Inspect vigil_check_status to identify the unknown checks.
